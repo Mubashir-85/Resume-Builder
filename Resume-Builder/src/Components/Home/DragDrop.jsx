@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { FaFileUpload } from "react-icons/fa";
 
 function DragDrop() {
+  const uploadRef = useRef(null);
+  const [file, setFile] = useState(null);
+  const handleChange = () => {
+    console.log(uploadRef.current.files[0]);
+    setFile(uploadRef.current.files[0]);
+  };
   return (
     <div className="bg-white h-95 rounded-2xl w-[80%] sm:w-[70%] md:w-[40%] lg:w-[45%] mx-auto mt-10">
       <div className="flex flex-col items-center justify-center h-full">
@@ -16,9 +22,26 @@ function DragDrop() {
             Upload your resume to get started with our comprehensive analysis
             and optimization process.
           </p>
-          <button className="bg-blue-900 text-white py-2 px-4 rounded-lg mt-5 hover:bg-blue-800">
-            Browse Files
-          </button>
+          <div
+            className="w-[40%] h-12 rounded-2xl mt-3 flex justify-center items-center overflow-hidden cursor-pointer bg-blue-900 p-5 "
+            onClick={() => {
+              uploadRef.current.click();
+            }}
+          >
+            <input
+              type="file"
+              className="bg-blue-900 text-white py-2 px-4 w-[50%] rounded-lg mt-5 hover:bg-blue-800 hidden"
+              ref={uploadRef}
+              onChange={handleChange}
+            />
+            <h2
+              className={`text-white ${
+                file ? "text-sm font-normal" : "text-lg font-semibold w-[40%]"
+              }`}
+            >
+              {file ? file.name : "Upload"}
+            </h2>
+          </div>
         </div>
       </div>
     </div>
